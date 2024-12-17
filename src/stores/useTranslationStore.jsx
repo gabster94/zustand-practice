@@ -1,6 +1,7 @@
 import { create } from "zustand"
 
-const translations = {
+// The avaliable translations
+export const translations = {
   en: {
     greeting: "Hello!",
     welcome: "Welcome!"
@@ -21,8 +22,11 @@ const translations = {
     greeting: "Hej!",
     welcome: "Välkommen!"
   }
-}
+};
 
-export const useTranslationStore = create(() => ({
-  language: "en"
-}))
+export const useTranslationStore = create((set) => ({
+  language: "en", //Default langugae
+
+  // Function to set a new language/update the language
+  setLanguage: (newLanguage) => set({ language: newLanguage })
+}));

@@ -1,16 +1,18 @@
 import { useState } from "react"
+import { useUserStore } from "../stores/useUserStore"
 
 export const Users = () => {
-  const [newUser, setNewUser] = useState({ name: "", email: "" })
+  const { users, addUser, removeUser } = useUserStore(); // Get store state and actions
+  const [newUser, setNewUser] = useState({ name: "", email: "" }); // State for the input form
 
-  const users = [
-    { id: 1, name: "John Doe", email: "john@example.com" },
-    { id: 2, name: "Jane Smith", email: "jane@example.com" }
-  ]
-
+  // Handle add user
   const handleAddUser = () => {
     //Here we will add the user to the store
-  }
+    if (newUser.name && newUser.email) {
+      addUser(newUser); // Call the Zustand action
+      setNewUser({ name: "", email: "" }); // Clear the input fields
+    }
+  };
 
   return (
     <section className="dark">
@@ -18,24 +20,25 @@ export const Users = () => {
       <p>a. Move the users array to the useUserStore and import it here</p>
       <p>b. Make the handleAddUser work by creating a new action in the useUserStore</p>
       <p>c. Make the remove user button work by creating a new action in the useUserStore</p>
+
       <input
         type="text"
         value={newUser.name}
-        onChange={e => setNewUser({ ...newUser, name: e.target.value })}
+        onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
         placeholder="Name"
       />
       <input
         type="email"
         value={newUser.email}
-        onChange={e => setNewUser({ ...newUser, email: e.target.value })}
+        onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
         placeholder="Email"
       />
       <button onClick={handleAddUser}>Add User</button>
       <ul>
-        {users.map(user => (
+        {users.map((user) => (
           <li key={user.id}>
             <span>{user.name} ({user.email})</span>
-            <button>Remove user</button>
+            <button onClick={() => removeUser(user.id)}>Remove user</button>
           </li>
         ))}
       </ul>
